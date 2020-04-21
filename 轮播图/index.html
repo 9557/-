@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>标题</title>
+    <!-- IMPORT CSS -->
+    <link rel="stylesheet" href="index.css" type="text/css">
+</head>
+
+<body>
+    <!-- box是可视窗口 -->
+    <div id="box">
+        <ul>
+            <li><img src="../(1).jpg" alt=""></li>
+            <li><img src="../(2).jpg" alt=""></li>
+            <li><img src="../(3).jpg" alt=""></li>
+            <li><img src="../(4).jpg" alt=""></li>
+            <li><img src="../(5).jpg" alt=""></li>
+            <li><img src="../(6).jpg" alt=""></li>
+            <!-- <li><img src="../(1).jpg" alt=""></li> -->
+        </ul>
+        <ol></ol>
+        <div class="btn_box">
+            <div class="left_btn"> &lt;</div>
+            <div class="right_btn">></div>
+        </div>
+        <!-- IMPORT JS -->
+        <script>
+            let box = document.querySelector('#box');
+            let ul = document.querySelector('ul');
+            let leftBtn = document.querySelector('.left_btn'),
+                rightBtn = document.querySelector('.right_btn');
+            let start = 0;
+            let timer = null;
+            function move() {
+                timer = setInterval(() => {
+                    start -= 600;
+                    // ul.style.left = start  + 'px';
+                    if (start < -3000) {
+                        // 小于 -3000的时候 证明条已经出去了
+                        // -3000的时候 我们显示的是伪第一张
+                        start = 0;
+                        ul.style.transition = 'none';
+                        ul.style.transform = `translateX(${start}px)`;
+                        // 闪到第一张之后  紧接着要向第二张移动 而不是再等1.5s;
+                        let l = ul.offsetHeight;
+                        // 读取操作会让浏览器重新渲染；
+                        start = 0;
+                        ul.style.transition = 'all 0.3s'
+                    } else {
+                        ul.style.transition = 'all 0.3s';
+                    }
+                    ul.style.transform = `translateX(${start}px)`;
+                }, 2000);
+            }
+            move();
+            // 滑过盒子 清除定时器
+            box.addEventListener('mouseenter', function () {
+                clearInterval(timer);
+                leftBtn.style.display = 'block';
+                rightBtn.style.display = 'block';
+            })
+            // 离开盒子 重启定时器
+            box.onmouseleave = function () {
+                move();
+                leftBtn.style.display = 'none';
+                rightBtn.style.display = 'none';
+            }
+            leftBtn.addEventListener('click', function () {
+                start += 600;
+                if (start > 0) {
+                    start = -3000;
+                    ul.style.transition = 'none';
+                    ul.style.transform = `translateX(${start}px)`;
+                    let l = ul.offsetHeight;
+                    start = -3000;
+                    ul.style.transition = 'all 0.3s'
+
+                } else {
+                    ul.style.transition = 'all 0.3s';
+                }
+                ul.style.transform = `translateX(${start}px)`;
+            })
+            rightBtn.addEventListener('click', function () {
+                start -= 600;
+                if (start < -3000) {
+                    start = 0;
+                    ul.style.transition = 'none';
+                    ul.style.transform = `translateX(${start}px)`;
+                    let l = ul.offsetHeight;
+                    start = 0;
+                    ul.style.transition = 'all 0.3s'
+                } else {
+                    ul.style.transition = 'all 0.3s';
+                }
+                ul.style.transform = `translateX(${start}px)`;
+            })
+
+            // 小圆点
+            let boxWidth = box.offsetWidth;
+            let ol = document.querySelector('ol');
+            for (let i = 0; i < ul.children.length; i++) {
+                let li = document.createElement('li');
+                li.setAttribute('index', i);
+                ol.appendChild(li);
+                // 排他思想：直接在生成小圆圈的同时直接绑定点击事件，点击当前所有人就添加active这个类，其余的小圆圈移除这个类
+                li.addEventListener('click', function () {
+                    for (let i = 0; i < ol.children.length; i++) {
+                        ol.children[i].className = '';
+                    }
+                    this.className = 'active';
+                    let index = this.getAttribute('index');
+                    ul.style.transform = `translateX(${-index*boxWidth}px)`;
+                })
+                ol.children[0].className = 'active';
+            }
+        </script>
+</body>
+
+</html>

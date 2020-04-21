@@ -2,13 +2,13 @@ let shopModule = (function () {
     /* 获取DOM元素 */
     let navList = document.querySelector('.navList'),
         banner = document.querySelector('.banner'),
-        cardList = null,
+        cardList = null;
         data = null;
 
     /* 获取服务器的数据 */
     let queryData = function queryData() {
         let xhr = new XMLHttpRequest;
-        xhr.open('get', './json/product.json', false);
+        xhr.open('GET', './json/product.json', false);
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 data = JSON.parse(xhr.responseText);
@@ -16,7 +16,6 @@ let shopModule = (function () {
         };
         xhr.send(null);
     };
-
     /* 数据绑定 */
     let bindHTML = function bindHTML() {
         let str = ``;
@@ -34,7 +33,7 @@ let shopModule = (function () {
                     data-hot="${hot}">
             <img src="${img}" alt="">
             <h5>￥${title}</h5>
-            <span class="price">价格：￥${price.toFixed(2)}</span>
+            <span class="price">价格：￥${price}</span>
             <span class="time">时间：${time}/span>
             <span class="hot">热度：${hot}</span>
         </div>`;
@@ -50,8 +49,7 @@ let shopModule = (function () {
             }
         });
     };
-
-    let sortList = function sortList(i) {
+    let sortCard = function sortCard(i) {
         let arr = Array.from(cardList);
         let char = "data-price";
         i === 1 ? char = 'data-time' : null;
@@ -73,7 +71,6 @@ let shopModule = (function () {
         [].forEach.call(navList, (item, index) => {
             item.flag = -1;
             item.onclick = function () {
-                // this : 当前点击的这个LI
                 clear.call(this);
                 this.flag *= -1;
                 sortCard.call(this, index);

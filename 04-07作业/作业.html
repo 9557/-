@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input type="text" placeholder="请输入数字">
+    <button>转化</button>
+    <div style="color: blue; font-weight: bold;"></div>
+    <script>
+        // 首要作业  结合正则和execAll的思想  实现 queryParams
+
+
+        //  match  split  replace  跟正则的结合使用方式；
+        // 1 -获取一个字符串中出现次数最多的字符 及其 次数 
+        let str = 'ertefvzdgfergsegfsdrgrgfbshtrh';
+        Array.from(str).forEach(item => {
+            // console.log(item);
+            let i = 0;
+            if (item.includes(str)) {
+                i += 1;
+            } else {
+                i = 1;
+            }
+            let max = str[0];
+            if (i > str[0]) {
+                max = i;
+            }
+            console.log(max);
+        });
+        // 2- 实现一个千分符的函数
+        // ‘124252343’  ‘124,252,343’
+        /* let reg = /[1-9](,\d{3})*$/;
+        let num = 123567;
+        console.log(reg.test(num)); */
+
+        //3- 结合replace实现 queryParams
+        /* (proto => {
+                    function queryURLParams() {
+                        let obj = {};
+                        this.replace(/([^?=&#]+)=([^?=&#]+)/g, (_, key, value) => obj[key] = value);
+                        this.replace(/#([^?=&#]+)/g, (_, hash) => obj['HASH'] = hash);
+                        return obj;
+                    }
+                    proto.queryURLParams = queryURLParams;
+                })(String.prototype); */
+
+    </script>
+</body>
+
+</html>
